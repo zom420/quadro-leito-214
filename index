@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prontuário — Leito 214</title>
+<style>
+  :root {
+    --ink: #12232e;
+    --ink-soft: #45606d;
+    --paper: #f4f8f8;
+    --panel: #ffffff;
+    --line: #d7e2e2;
+    --teal: #0f6e6e;
+    --teal-deep: #0a4f4f;
+    --danger: #a3352f;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+    --sans: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: var(--sans); background: var(--paper); color: var(--ink); min-height:100vh; }
+  .app { max-width: 920px; margin:0 auto; padding: 28px 20px 60px; }
+
+  .screen { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .screen-head { background: var(--teal-deep); color:#eaf3f2; padding:16px 24px; display:flex; align-items:baseline; justify-content:space-between; }
+  .screen-head .name { font-weight:600; letter-spacing:0.01em; font-size:1.02rem; }
+  .screen-head .tag { font-family: var(--mono); font-size:0.78rem; color:#b9d6d3; }
+  .screen-body { padding: 30px; }
+
+  .login-intro { font-size:0.94rem; color:var(--ink-soft); margin:0 0 22px; max-width:50ch; line-height:1.55; }
+  label { display:block; font-size:0.82rem; color:var(--ink-soft); margin-bottom:6px; }
+  input[type=text] { width:100%; max-width:280px; padding:11px 12px; border:1px solid var(--line); border-radius:3px; font-family:var(--mono); font-size:0.95rem; background:var(--paper); color:var(--ink); }
+  input[type=text]:focus { outline:2px solid var(--teal); outline-offset:1px; }
+  .btn { margin-top:16px; background:var(--teal); color:white; border:none; padding:11px 22px; border-radius:3px; font-size:0.92rem; font-weight:600; cursor:pointer; }
+  .btn:hover { background:var(--teal-deep); }
+  .btn-quiet { background:none; border:1px solid var(--line); color:var(--ink-soft); padding:8px 16px; border-radius:3px; font-size:0.85rem; cursor:pointer; }
+  .btn-quiet:hover { border-color:var(--ink-soft); color:var(--ink); }
+  .error { margin-top:14px; color:var(--danger); font-size:0.86rem; display:none; }
+  .hint { margin-top:24px; font-size:0.78rem; color:var(--ink-soft); border-top:1px solid var(--line); padding-top:14px; }
+  .hint code { font-family:var(--mono); background:var(--paper); padding:1px 5px; border-radius:2px; }
+
+  .who-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:10px; }
+  .who-bar .staff { font-size:0.88rem; color:var(--ink-soft); }
+  .who-bar .staff strong { color:var(--ink); }
+  .who-bar .role-pill { font-family:var(--mono); font-size:0.72rem; background:#eef5f4; color:var(--teal-deep); padding:2px 8px; border-radius:20px; margin-left:6px; }
+
+  .field-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(160px,1fr)); gap:16px; margin-bottom:10px; }
+  .field { border-left:2px solid var(--teal); padding-left:12px; }
+  .field .k { font-size:0.76rem; color:var(--ink-soft); margin-bottom:2px; }
+  .field .v { font-family:var(--mono); font-size:0.98rem; }
+  .field.alert .v { color:var(--danger); }
+
+  .section-title { font-size:0.82rem; color:var(--ink-soft); margin:28px 0 12px; border-top:1px solid var(--line); padding-top:20px; }
+
+  .vitals { display:flex; gap:22px; flex-wrap:wrap; }
+  .vitals .v-item { min-width:90px; }
+  .vitals .v-item .k { font-size:0.72rem; color:var(--ink-soft); }
+  .vitals .v-item .v { font-family:var(--mono); font-size:1.05rem; }
+
+  table { width:100%; border-collapse:collapse; font-size:0.84rem; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); }
+  th { color:var(--ink-soft); font-weight:500; font-size:0.76rem; }
+  td.mono, th.mono { font-family:var(--mono); }
+
+  .evolucao-item { padding:10px 0; border-bottom:1px solid var(--line); }
+  .evolucao-item:last-child { border-bottom:none; }
+  .evolucao-item .when { font-family:var(--mono); font-size:0.76rem; color:var(--ink-soft); margin-bottom:3px; }
+  .evolucao-item .txt { font-size:0.9rem; }
+
+  .lgpd-note { margin-top:26px; background:#eef5f4; border:1px solid var(--line); border-radius:3px; padding:14px 16px; font-size:0.82rem; color:var(--ink-soft); line-height:1.5; }
+  .lgpd-note strong { color:var(--ink); }
+
+  .locked-note { margin-top:18px; font-size:0.8rem; color:var(--ink-soft); }
+
+  @media (max-width:620px) { .screen-body { padding:20px; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="screen">
+    <div class="screen-head">
+      <span class="name">Prontuário — Leito 214</span>
+      <span class="tag" id="screenTag">login</span>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="screen-body" id="loginScreen">
+      <p class="login-intro">
+        Este QR code foi escaneado no quadro do leito 214. O conteúdo clínico completo do paciente
+        é restrito à equipe assistencial. Identifique-se com sua matrícula funcional para continuar.
+      </p>
+      <label for="matricula">Matrícula funcional</label>
+      <input type="text" id="matricula" placeholder="ex.: 4021" autocomplete="off">
+      <div><button class="btn" onclick="tentarLogin()">Acessar prontuário</button></div>
+      <p class="error" id="loginError">Matrícula não reconhecida ou sem permissão de acesso.</p>
+      <p class="hint">
+        Matrículas de teste — técnico: <code>9050</code>, enfermeiro: <code>4021</code>, médico: <code>1187</code>.
+        Qualquer outro número simula acesso negado.
+      </p>
+    </div>
+
+    <!-- PRONTUÁRIO COMPLETO -->
+    <div class="screen-body" id="recordScreen" style="display:none;">
+      <div class="who-bar">
+        <div class="staff">Acesso de: <strong id="staffName"></strong><span class="role-pill" id="staffRole"></span></div>
+        <button class="btn-quiet" onclick="sair()">Encerrar sessão</button>
+      </div>
+
+      <div class="field-grid">
+        <div class="field"><div class="k">Nome</div><div class="v">Maria da Conceição Alves</div></div>
+        <div class="field"><div class="k">Registro</div><div class="v">208874</div></div>
+        <div class="field"><div class="k">Nascimento</div><div class="v">14/03/1958</div></div>
+        <div class="field"><div class="k">Leito</div><div class="v">214-A</div></div>
+        <div class="field"><div class="k">Peso</div><div class="v">68 kg</div></div>
+        <div class="field"><div class="k">Altura</div><div class="v">1,62 m</div></div>
+        <div class="field alert"><div class="k">Alergias</div><div class="v">Dipirona, látex</div></div>
+        <div class="field"><div class="k">Tipo sanguíneo</div><div class="v">O+</div></div>
+      </div>
+
+      <div class="section-title">Sinais vitais (última aferição — 07:40)</div>
+      <div class="vitals">
+        <div class="v-item"><div class="k">PA</div><div class="v">128/82 mmHg</div></div>
+        <div class="v-item"><div class="k">FC</div><div class="v">78 bpm</div></div>
+        <div class="v-item"><div class="k">Temp.</div><div class="v">36,6 °C</div></div>
+        <div class="v-item"><div class="k">SpO2</div><div class="v">97%</div></div>
+        <div class="v-item"><div class="k">Glicemia</div><div class="v">104 mg/dL</div></div>
+      </div>
+
+      <div class="section-title">Diagnóstico e medicação atual</div>
+      <div class="field-grid">
+        <div class="field"><div class="k">Diagnóstico</div><div class="v">Hipertensão descompensada</div></div>
+        <div class="field"><div class="k">Medicação</div><div class="v">Enalapril 10mg, 12/12h</div></div>
+        <div class="field"><div class="k">Dieta</div><div class="v">Hipossódica</div></div>
+        <div class="field"><div class="k">Previsão de alta</div><div class="v">16/09/2026</div></div>
+      </div>
+
+      <div class="section-title">Evolução clínica recente</div>
+      <div class="evolucao">
+        <div class="evolucao-item"><div class="when">13/09 · 07:40 · Enfermagem</div><div class="txt">Paciente estável, sem queixas. Sinais vitais dentro do esperado.</div></div>
+        <div class="evolucao-item"><div class="when">12/09 · 19:10 · Clínica médica</div><div class="txt">Ajuste de dose de anti-hipertensivo. Reavaliação em 24h.</div></div>
+        <div class="evolucao-item"><div class="when">12/09 · 08:00 · Enfermagem</div><div class="txt">Admissão no leito 214. Exames laboratoriais coletados.</div></div>
+      </div>
+
+      <div class="section-title">Equipe responsável</div>
+      <table>
+        <thead><tr><th>Função</th><th>Profissional</th><th>Contato</th></tr></thead>
+        <tbody>
+          <tr><td>Médico assistente</td><td>Dr. Renato Lima</td><td class="mono">ramal 3312</td></tr>
+          <tr><td>Enfermeira responsável</td><td>Enf. Patrícia Souza</td><td class="mono">ramal 3305</td></tr>
+        </tbody>
+      </table>
+
+      <div class="section-title">Contato de emergência</div>
+      <div class="field-grid">
+        <div class="field"><div class="k">Nome</div><div class="v">Carlos Alves (filho)</div></div>
+        <div class="field"><div class="k">Telefone</div><div class="v">(21) 9****-2231</div></div>
+      </div>
+
+      <div class="lgpd-note">
+        <strong>Sobre este acesso —</strong> por se tratar de dado sensível (art. 5º, II, LGPD), esta consulta foi
+        registrada no log abaixo com matrícula, cargo e horário, conforme os princípios de necessidade,
+        segurança e prestação de contas da lei.
+      </div>
+
+      <div class="section-title">Registro de acessos a este prontuário</div>
+      <table>
+        <thead><tr><th>Matrícula</th><th>Profissional</th><th>Cargo</th><th>Horário</th></tr></thead>
+        <tbody id="logBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  const equipe = {
+    "9050": { nome: "Téc. João Bastos", cargo: "Técnico em Enfermagem" },
+    "4021": { nome: "Enf. Patrícia Souza", cargo: "Enfermeiro(a)" },
+    "1187": { nome: "Dr. Renato Lima", cargo: "Médico(a)" }
+  };
+  let log = [];
+
+  function agora() {
+    return new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+  }
+
+  function tentarLogin() {
+    const mat = document.getElementById('matricula').value.trim();
+    const erro = document.getElementById('loginError');
+    const pessoa = equipe[mat];
+    if (!pessoa) { erro.style.display = 'block'; return; }
+    erro.style.display = 'none';
+
+    log.unshift({ mat, nome: pessoa.nome, cargo: pessoa.cargo, hora: agora() });
+    renderLog();
+
+    document.getElementById('staffName').textContent = pessoa.nome;
+    document.getElementById('staffRole').textContent = pessoa.cargo;
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('recordScreen').style.display = 'block';
+    document.getElementById('screenTag').textContent = 'mat. ' + mat;
+  }
+
+  function renderLog() {
+    document.getElementById('logBody').innerHTML = log.map(l =>
+      `<tr><td class="mono">${l.mat}</td><td>${l.nome}</td><td>${l.cargo}</td><td class="mono">${l.hora}</td></tr>`
+    ).join('');
+  }
+
+  function sair() {
+    document.getElementById('recordScreen').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'block';
+    document.getElementById('matricula').value = '';
+    document.getElementById('screenTag').textContent = 'login';
+  }
+
+  document.getElementById('matricula').addEventListener('keydown', e => { if (e.key === 'Enter') tentarLogin(); });
+</script>
+</body>
+</html>
